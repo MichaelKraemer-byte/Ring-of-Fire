@@ -1,0 +1,16 @@
+.start-screen {
+    background: rgb(40,153,38);
+    background: radial-gradient(circle, rgba(40,153,38,1) 0%, rgba(21,59,0,1) 100%);
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .startImage{
+        width: 100vw;
+        height: 100vh;
+        max-width: 100%;
+    }
+}

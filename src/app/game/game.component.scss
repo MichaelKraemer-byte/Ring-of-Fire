@@ -1,0 +1,60 @@
+.field {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgb(40,153,38);
+    background: radial-gradient(circle, rgba(40,153,38,1) 0%, rgba(21,59,0,1) 100%);
+
+
+    .card-stack{
+        position: relative;
+
+        img{
+            position: absolute;
+            width: 120px;
+            height: auto;            
+        }
+
+    }
+
+}
+
+
+.top-card{
+    cursor: pointer;
+    transition: all 75ms ease-in-out;
+
+    &:hover{
+        transform: scale(1.1) translateY(-10px);
+        box-shadow: rgba(0, 0, 0, 0.498) 0px 20px 30px -10px;        
+    }
+}
+
+.pick-card{
+    animation: pick-card-animation 0.75s ease-in-out;
+    transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg); //tranform animation needs this  line as a first set for the keyframe animation
+
+    cursor: pointer;
+
+}
+
+@keyframes pick-card-animation{
+    0% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(1.7);
+    }
+    60% {
+        transform: scale(1.7);
+
+    }
+    100% {
+        transform: scale(1.3) translateX(140px) translateY(-180px) rotate(-10deg);
+    }
+}

@@ -14,3 +14,22 @@
         max-width: 100%;
     }
 }
+
+.start-label-box{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10vh;
+    display: flex;
+    justify-content: center;
+
+    img{
+        width: 30vw;
+        height: 10vh;
+
+        &:hover {
+            filter: brightness(1.5);
+            cursor: pointer;
+        }
+    }
+}

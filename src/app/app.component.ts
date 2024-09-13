@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
 import { RouterOutlet } from '@angular/router';
 import { StartScreenComponent } from './start-screen/start-screen.component';
 import { GameComponent } from './game/game.component';
@@ -28,5 +31,15 @@ import { FormsModule } from '@angular/forms';
 
 
 export class AppComponent {
+
+  firestore: Firestore = inject(Firestore);
+  items$: Observable<any[]>;
+
+
   title = 'ringoffire';
+
+  constructor(){
+    const aCollection = collection(this.firestore, 'items')
+    this.items$ = collectionData(aCollection);
+  }
 }

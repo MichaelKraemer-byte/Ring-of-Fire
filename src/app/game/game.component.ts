@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Game } from '../../models/game';
 import { PlayerComponent } from '../player/player.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from "../game-info/game-info.component";
+import { unsubscribe } from 'diagnostics_channel';
+import { Firestore } from '@angular/fire/firestore';
+import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore';
+import { OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-game',
@@ -22,24 +26,45 @@ import { GameInfoComponent } from "../game-info/game-info.component";
   styleUrls: ['./game.component.scss']
 })
 
-export class GameComponent implements OnInit{
+export class GameComponent implements OnInit, OnDestroy{
 
   pickCardAnimation = false;
   currentCard: string = '';
   game!: Game;
 
+  unsubGames!: () => void;
 
-  constructor(public dialog: MatDialog){
 
+
+  constructor(private firestore: Firestore = inject(Firestore), public dialog: MatDialog){
+    this.unsubGames = this.subGames();
+  }
+
+  subGames(): () => void {
+    return onSnapshot(this.getGamesRef(), (games) => {
+      games.forEach(gameSnap => {
+        console.log(gameSnap.data());
+      });
+    });
   }
 
   ngOnInit(): void {
       this.newGame();
   }
 
+  ngOnDestroy(): void {
+    if (this.unsubGames) {
+      this.unsubGames();
+    }
+  }
+
+  getGamesRef(){
+    return collection(this.firestore, 'Games')
+  }
+
   newGame(){
     this.game = new Game();
-    console.log(this.game);
+    addDoc(this.getGamesRef(), this.game.gameJson());
   }
 
   takeCard(){
